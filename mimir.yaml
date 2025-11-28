@@ -2,9 +2,6 @@ server:
   grpc_listen_port: 9095
   http_listen_port: 9009
 
-auth:
-  multitenancy_enabled: false
-
 blocks_storage:
   backend: filesystem
   filesystem:

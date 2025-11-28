@@ -46,7 +46,7 @@ services:
   mimir:
     image: grafana/mimir:2.12.0
     container_name: mimir
-    command: -config.file=/etc/mimir/mimir.yaml
+    command: -config.file=/etc/mimir/mimir.yaml -auth.multitenancy-enabled=false
     volumes:
       - ./mimir.yaml:/etc/mimir/mimir.yaml
       - mimir_data:/data
