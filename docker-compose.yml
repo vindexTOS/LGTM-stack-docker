@@ -13,6 +13,7 @@ services:
     depends_on:
       - loki
       - tempo
+      - mimir
 
   loki:
     image: grafana/loki:2.9.0
@@ -25,12 +26,8 @@ services:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      # Promtail config file
       - ./promtail-config.yml:/etc/promtail/promtail.yaml:ro
-
-      # PM2 logs from the host machine
       - /root/.pm2/logs:/pm2_logs
-
     command: -config.file=/etc/promtail/promtail.yaml
     depends_on:
       - loki
@@ -43,8 +40,35 @@ services:
     command: ["-config.file=/etc/tempo.yaml"]
     ports:
       - "3200:3200"
-      - "4317:4317"
-      - "4318:4318"
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+
+  mimir:
+    image: grafana/mimir:2.12.0
+    container_name: mimir
+    command: -config.file=/etc/mimir/mimir.yaml
+    volumes:
+      - ./mimir.yaml:/etc/mimir/mimir.yaml
+      - mimir_data:/data
+    ports:
+      - "9009:9009"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mimir
+
+  nodeexporter:
+    image: prom/node-exporter
+    container_name: nodeexporter
+    ports:
+      - "9100:9100"
 
 volumes:
   grafana_data:
+  mimir_data:

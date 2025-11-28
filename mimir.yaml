@@ -1,0 +1,18 @@
+server:
+  grpc_listen_port: 9095
+  http_listen_port: 9009
+
+blocks_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data
+
+alertmanager_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data/alertmanager
+
+ruler_storage:
+  backend: filesystem
+  filesystem:
+    dir: /data/rules
