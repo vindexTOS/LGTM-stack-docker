@@ -19,3 +19,4 @@ ruler_storage:
   backend: filesystem
   filesystem:
     dir: /data/rules
+# target: all
