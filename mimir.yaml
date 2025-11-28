@@ -5,7 +5,7 @@ server:
 blocks_storage:
   backend: filesystem
   filesystem:
-    dir: /data
+    dir: /data/blocks
 
 alertmanager_storage:
   backend: filesystem
