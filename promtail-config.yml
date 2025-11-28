@@ -9,11 +9,12 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: nest-logs
+  - job_name: pm2_logs
     static_configs:
       - targets:
           - localhost
         labels:
-          job: "nest"
+          job: "pm2"
+          app: "keystone-charger"
           env: "dev"
-          __path__: /var/log/nest/*.log
+          __path__: /pm2_logs/*.log
